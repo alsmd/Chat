@@ -1,0 +1,17 @@
+a:hover{
+	cursor:pointer
+}
+.containerChat{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.navbar{
+	z-index: 100;
+}

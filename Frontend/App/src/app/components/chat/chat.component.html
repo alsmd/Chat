@@ -1,0 +1,26 @@
+<div id="area">
+	<div class="chat-area">
+		<!-- HEADER -->
+		<div class="message-header">
+			<mat-icon matSuffix [ngStyle]="{'color':'white'}">sentiment_very_satisfied</mat-icon>
+			<span class="name">{{username}}</span>
+			<div class="return">
+				<mat-icon matSuffix [ngStyle]="{'color':'white'}" (click)="close()">keyboard_return</mat-icon>
+			</div>
+		</div>
+		<!-- Area com as mensagens -->
+		<div class="message-area">
+			<div *ngFor="let message of messages" class="message-box" [ngClass]="message.username.S == username ? 'message-box-left' : 'message-box-right'">
+				{{message.message.S}}
+			</div>
+		</div>
+		<mat-form-field appearance="legacy">
+			<mat-label>Message</mat-label>
+			<input matInput placeholder="Placeholder" [(ngModel)]="text" type="text" name="_text" [ngStyle]="{'color':'white'}" (keydown.enter)="sendMessage()">
+			<mat-icon matSuffix [ngStyle]="{'color':'white'}">sentiment_very_satisfied</mat-icon>
+		</mat-form-field>
+		<input type="text" [(ngModel)]="text"/>
+	</div>
+	
+	
+</div>

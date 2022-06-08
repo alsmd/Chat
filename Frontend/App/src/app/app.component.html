@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-3">
+	<div class="container-fluid">
+	  
+	  <div class="collapse navbar-collapse d-flex container justify-content-between" id="navbarSupportedContent">
+			<div>
+				<a class="navbar-brand" href="#">Navbar</a>
+			</div>
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item" (click)="loginComponent()" *ngIf="!isAuth">
+					<a class="nav-link " >Login</a>
+				</li>
+				<li class="nav-item" (click)="signupComponent()" *ngIf="!isAuth">
+					<a class="nav-link" >Signup</a>
+				</li>
+				<li class="nav-item" (click)="logout()" *ngIf="isAuth">
+					<a class="nav-link text-white" *ngIf="isAuth">Logout</a>
+				</li>
+			</ul>
+	  </div>
+	</div>
+</nav>
+
+<app-user-list [token]="token" *ngIf="isAuth && !chatIsOpen" (username)="openChat($event)"></app-user-list>
+<div class="containerChat" *ngIf="isAuth && chatIsOpen">
+	<app-chat [token]="token" [username]="username"  (closeEvent)="closeChat()"></app-chat>
+</div>

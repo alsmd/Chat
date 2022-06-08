@@ -1,0 +1,102 @@
+service: BackendChat
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+  tableName: ChatTable
+  
+
+provider:
+  name: aws
+  runtime: python3.8
+  httpApi:
+    cors: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: '*'
+  environment:
+    tableName: ${self:custom.tableName}
+    SECRET_KEY: oaicaownie1220a
+
+functions:
+
+  # User Resources  
+  getToken:
+    handler: lambda/endpoints/user/getToken.handler
+    events:
+      - http:
+          path: user/get-token
+          method: POST
+          cors: true
+
+  createUser:
+    handler: lambda/endpoints/user/createUser.handler
+    events:
+      - http:
+          path: user
+          method: POST
+          cors: true
+
+  getUsers:
+    handler: lambda/endpoints/user/getUsers.handler
+    events:
+      - http:
+          path: user
+          method: GET
+          cors: true
+  #Chat Resoruces
+  connectChat:
+    handler: lambda/endpoints/chat/connect.handler
+    events:
+      - http:
+          path: chat/connect
+          method: POST
+          cors: true
+  sendMessage:
+    handler: lambda/endpoints/chat/sendMessage.handler
+    events:
+      - http:
+          path: chat/send-message
+          method: POST
+          cors: true
+  getMessages:
+    handler: lambda/endpoints/chat/getMessages.handler
+    events:
+      - http:
+          path: chat/get-messages
+          method: POST
+          cors: true
+
+resources:
+  Resources:
+    ChatTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: sk-index
+            KeySchema:
+              - AttributeName: sk
+                KeyType: HASH
+              - AttributeName: pk
+                KeyType: RANGE
+            Projection:
+              ProjectionType: 'ALL'
+        BillingMode: PAY_PER_REQUEST

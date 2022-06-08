@@ -1,0 +1,18 @@
+<mat-list>
+	<div mat-subheader>Users</div>
+	<mat-list-item *ngFor="let user of users" (click)="selectUser(user.username.S)">
+	  <div>
+			<mat-icon mat-list-icon>person_pin</mat-icon>
+			<div mat-line>{{user.username.S}}</div>
+	  </div>
+	</mat-list-item>
+	<mat-paginator 
+				[length]="itemQuantity"
+            	[pageSize]="itemPerPage"
+            	(page)="pageObject = $event"
+            	aria-label="Select page">
+	</mat-paginator>
+</mat-list>
+<!-- <div>List length: {{pageEvent.length}}</div>
+<div>Page size: {{pageEvent.pageSize}}</div>
+<div>Page index: {{pageEvent.pageIndex}}</div> -->

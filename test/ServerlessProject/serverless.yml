@@ -1,0 +1,79 @@
+service: serverlessproject
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  profile: serverlessUser
+  httpApi:
+    cors: true
+  environment:
+    tableName: ${self:custom.tableName}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: '*'
+
+
+plugins:
+  - serverless-s3-sync
+
+
+custom:
+  tableName: player-points
+  s3Sync:
+    - bucketName: myserverlessflasife
+      localDir: UploadData
+
+functions:
+  getUser:
+    handler: lambdas/endpoints/getUser.handler
+    events:
+      - http:
+          path: get-user/{ID}
+          method: GET
+  getPlayerScore:
+    handler: lambdas/endpoints/getPlayerScore.handler
+    events:
+      - http:
+          path: get-player-score/{ID}
+          method: GET
+  getPlayerByScore:
+    handler: lambdas/endpoints/getPlayerByScore.handler
+    events:
+      - http:
+          path: get-player-by-score/{SCORE}
+          method: GET
+
+resources:
+  Resources:
+    DemoBucketUpload:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: myserverlessflasife
+    MyDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: ID
+            AttributeType: S
+          - AttributeName: Score
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ID
+            KeyType: HASH
+          - AttributeName: Score
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: Score-index
+            KeySchema:
+              - AttributeName: Score
+                KeyType: HASH
+              - AttributeName: ID
+                KeyType: RANGE
+            Projection:
+              ProjectionType: 'ALL'
+        BillingMode: PAY_PER_REQUEST

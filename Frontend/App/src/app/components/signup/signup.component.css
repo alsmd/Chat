@@ -1,0 +1,28 @@
+.mat-toolbar{
+	margin: -24px;
+	width: auto;
+	margin-bottom: 10px;
+}
+
+.title-center{
+	flex: 1 1 auto;
+	text-align:center;
+}
+.center{
+	display: flex;
+	justify-content: center;
+}
+mat-form-field{
+	padding: 5px;
+}
+
+.container{
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	left: 0px;
+	top: 0px;
+}

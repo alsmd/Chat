@@ -1,0 +1,8 @@
+npm install serverless
+serverless config credentials --provider aws --key AKIAYA4V5VL7DFSXR6WA --secret ################/35CUB --profile serverlessUser
+serverless create --template aws-python3 --path ServerlessProject
+serverless deploy
+npm install --save serverless-s3-sync
+serverless invoke -f hello
+npm install --save serverless-webpack
+npm install --save webpack

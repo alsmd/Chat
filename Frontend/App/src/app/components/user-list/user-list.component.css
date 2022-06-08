@@ -1,0 +1,22 @@
+mat-list-item{
+	padding: 6px;
+	background-color: rgb(27, 59, 109);
+	margin-bottom: 7px;
+	width: 100%;
+	max-width: 400px;
+	border-radius: 10px;
+}
+mat-list-item:hover{
+	cursor: pointer;
+	background-color: rgb(47, 79, 132);
+}
+mat-list{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+mat-paginator {
+	background-color: transparent;
+  }
